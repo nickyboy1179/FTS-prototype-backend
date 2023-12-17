@@ -7,6 +7,7 @@ name = "pypi"
 flask = "*"
 openai = "*"
 python-dotenv = "*"
+flask-socketio = "*"
 
 [dev-packages]
 
