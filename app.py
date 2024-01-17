@@ -96,7 +96,7 @@ def upload():
     # Save the audio file to the server
     audio_file.save('uploads/recording.mp3')
 
-    transcript = translate_audio()
+    transcript = transcript_audio()
 
     socketio.emit('send_human_message', {'data': transcript})
 
