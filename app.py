@@ -1,10 +1,17 @@
-import os
+import os, sqlite3
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
+
+connection = sqlite3.connect('data/database.db')
+
+with open('data/schema.sql') as f:
+    connection.executescript(f.read())
+
+cur = connection.cursor()
 
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins=['http://127.0.0.1:5000'])
