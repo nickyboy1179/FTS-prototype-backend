@@ -1,24 +1,84 @@
-import os, sqlite3
+import os
 from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO
-from openai import OpenAI
-from dotenv import load_dotenv
+# from flask_socketio import SocketIO
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+# from openai import OpenAI
+# from dotenv import load_dotenv
+# from models.models import Event, EventCategory, Location, EventDays, Category
 
-load_dotenv()
-
-connection = sqlite3.connect('data/database.db')
-
-with open('data/schema.sql') as f:
-    connection.executescript(f.read())
-
-cur = connection.cursor()
+# load_dotenv()
 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins=['http://127.0.0.1:5000'])
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
+# app.config['SQLALCHEMY_TRACK_NOTIFICATIONS'] = False
 
-client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
+db = SQLAlchemy(app)
+app.app_context().push()
+Migrate(app, db)
+
+# socketio = SocketIO(app, cors_allowed_origins=['http://127.0.0.1:5000'])
+#
+# client = OpenAI(
+#     api_key=os.environ.get("OPENAI_API_KEY"),
+# )
+
+class Event(db.Model):
+    __tablename__ = 'event'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    cost_of_entry = db.Column(db.Integer)
+    organizers_notes = db.Column(db.String(255))
+    start_time = db.Column(db.Time, nullable=False)
+    end_time = db.Column(db.Time, nullable=False)
+    location_id = db.Column(db.Integer, db.ForeignKey('location.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Event: {self.id} {self.name}'
+
+
+class Location(db.Model):
+    __tablename__ = 'location'
+    id = db.Column(db.Integer, primary_key=True)
+    location_name = db.Column(db.String(50))
+    street_name = db.Column(db.String(255), nullable=False)
+    house_number = db.Column(db.Integer, nullable=False)
+    location_notes = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f'Location: {self:id} {self.street_name} {self.house_number}'
+
+
+class EventDays(db.Model):
+    __tablename__ = 'event_days'
+    id = db.Column(db.Integer, primary_key=True)
+    day_of_week = db.Column(db.String(9), nullable=False)
+    week_of_month = db.Column(db.Integer)
+
+    def __repr__(self):
+        return f'Location: {self:id}'
+
+
+class EventCategory(db.Model):
+    __tablename__ = 'event_category'
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), primary_key=True)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
+
+    def __repr__(self):
+        return f'Location: {self.category_id} {self.event_id}'
+
+
+class Category(db.Model):
+    __tablename__ = 'category'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False, unique=True)
+
+    def __repr__(self):
+        return f'Location: {self:id} {self.name}'
+
+
+db.create_all()
 
 # chat_completion = client.chat.completions.create(
 #     messages=[
@@ -47,64 +107,64 @@ client = OpenAI(
 # print(translation)
 
 
-def ask_chatgpt(text):
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                "role": "user",
-                "content": text,
-            }
-        ],
-        model="gpt-3.5-turbo",
-    )
-    return chat_completion.choices[0].message.content
-
-
-def transcript_audio():
-    audio_file = open("uploads/recording.mp3", "rb")
-    transcript = client.audio.transcriptions.create(
-        model="whisper-1",
-        file=audio_file
-    )
-    return transcript.text
-
-
-def translate_audio():
-    audio_file = open("uploads/recording.mp3", "rb")
-    translate = client.audio.translations.create(
-        model="whisper-1",
-        file=audio_file
-    )
-    return translate.text
-
-
-@app.route('/')
-def index():
-    return render_template("index.html")
-
-
-@app.route('/upload', methods=['POST'])
-def upload():
-    if 'audio' not in request.files:
-        return jsonify({'error': 'No audio file provided'}), 400
-
-    audio_file = request.files['audio']
-
-    if audio_file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
-
-    # Save the audio file to the server
-    audio_file.save('uploads/recording.mp3')
-
-    transcript = transcript_audio()
-
-    socketio.emit('send_human_message', {'data': transcript})
-
-    chat_completion = ask_chatgpt(transcript)
-    socketio.emit('send_bot_message', {'data': chat_completion})
-
-    return jsonify({'message': 'uploads uploaded successfully'})
-
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# def ask_chatgpt(text):
+#     chat_completion = client.chat.completions.create(
+#         messages=[
+#             {
+#                 "role": "user",
+#                 "content": text,
+#             }
+#         ],
+#         model="gpt-3.5-turbo",
+#     )
+#     return chat_completion.choices[0].message.content
+#
+#
+# def transcript_audio():
+#     audio_file = open("uploads/recording.mp3", "rb")
+#     transcript = client.audio.transcriptions.create(
+#         model="whisper-1",
+#         file=audio_file
+#     )
+#     return transcript.text
+#
+#
+# def translate_audio():
+#     audio_file = open("uploads/recording.mp3", "rb")
+#     translate = client.audio.translations.create(
+#         model="whisper-1",
+#         file=audio_file
+#     )
+#     return translate.text
+#
+#
+# @app.route('/')
+# def index():
+#     return render_template("index.html")
+#
+#
+# @app.route('/upload', methods=['POST'])
+# def upload():
+#     if 'audio' not in request.files:
+#         return jsonify({'error': 'No audio file provided'}), 400
+#
+#     audio_file = request.files['audio']
+#
+#     if audio_file.filename == '':
+#         return jsonify({'error': 'No selected file'}), 400
+#
+#     # Save the audio file to the server
+#     audio_file.save('uploads/recording.mp3')
+#
+#     transcript = transcript_audio()
+#
+#     socketio.emit('send_human_message', {'data': transcript})
+#
+#     chat_completion = ask_chatgpt(transcript)
+#     socketio.emit('send_bot_message', {'data': chat_completion})
+#
+#     return jsonify({'message': 'uploads uploaded successfully'})
+#
+#
+# if __name__ == '__main__':
+#     app.run(debug=True)
