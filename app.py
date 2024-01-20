@@ -1,4 +1,4 @@
-import os, time, datetime
+import os, time, datetime, json
 from __init__ import app, db, socketio
 from flask import render_template, request, jsonify
 from openai import OpenAI
@@ -79,54 +79,45 @@ def retrieve_events():
         print(event)
 
 
-def create_xml():
 
-    root = ET.Element("root")
+def create_json():
+    events_data = []
     events = db.session.execute(db.select(Event))
-    for event in events:
-        evnt = ET.SubElement(root, "event")
 
+    for event in events:
         location = db.session.execute(db.select(Location).filter_by(id=event[0].location_id)).scalar_one()
         event_category = db.session.execute(db.select(EventCategory).filter_by(event_id=event[0].id)).all()
         event_days = db.session.execute(db.select(EventDays).filter_by(event_id=event[0].id))
 
-        category_ids = []
-        for entry in event_category:
-            category_ids.append(entry[0].category_id)
-
+        category_ids = [entry[0].category_id for entry in event_category]
         categories = db.session.execute(db.select(Category).filter(Category.id.in_(category_ids)))
 
-        ET.SubElement(evnt, "name", name="Name").text = event[0].name
-        ET.SubElement(evnt, "description", name="Description").text = event[0].description
-        ET.SubElement(evnt, "start_time", name="Start time").text = event[0].start_time.strftime("%H:%M")
-        ET.SubElement(evnt, "end_time", name="End time").text = event[0].end_time.strftime("%H:%M")
-        if event[0].cost_of_entry is None:
-            ET.SubElement(evnt, "cost_of_entry", name="Cost of entry").text = 'No costs'
-        else:
-            ET.SubElement(evnt, "cost_of_entry", name="Cost of entry").text = event[0].cost_of_entry
-        ET.SubElement(evnt, "organizers_notes", name="Organizers notes").text = event[0].organizers_notes
+        event_data = {
+            "name": event[0].name,
+            "description": event[0].description,
+            "start_time": event[0].start_time.strftime("%H:%M"),
+            "end_time": event[0].end_time.strftime("%H:%M"),
+            "cost_of_entry": 'No costs' if event[0].cost_of_entry is None else event[0].cost_of_entry,
+            "organizers_notes": event[0].organizers_notes,
+            "categories": [{"name": category[0].name} for category in categories],
+            "location": {
+                "location_name": location.location_name,
+                "street_name": location.street_name,
+                "house_number": str(location.house_number),
+                "location_notes": location.location_notes
+            },
+            "days_of_week": [{"day_of_week": entry[0].day_of_week} for entry in event_days],
+            "weeks_of_month": [str(entry[0].week_of_month) for entry in event_days if
+                               entry[0].week_of_month is not None]
+        }
 
-        cat = ET.SubElement(evnt, "categories")
-        for category in categories:
-            ET.SubElement(cat, "category", name="Category").text = category[0].name
+        events_data.append(event_data)
 
-        loc = ET.SubElement(evnt, "location")
-        ET.SubElement(loc, "location_name", name="Location name").text = location.location_name
-        ET.SubElement(loc, "street_name", name="Street name").text = location.street_name
-        ET.SubElement(loc, "house_number", name="House number").text = str(location.house_number)
-        ET.SubElement(loc, "location_notes", name="Location notes").text = location.location_notes
+    with open('data/events_data.json', 'w') as json_file:
+        json.dump(events_data, json_file, indent=2)
 
-        evntdays = ET.SubElement(evnt, "days_of_week")
-        wkofmnth = ET.SubElement(evnt, "weeks_of_month")
-        for entry in event_days:
-            ET.SubElement(evntdays, "day_of_week", name="Day of week").text = entry[0].day_of_week
-            if entry[0].week_of_month is not None:
-                ET.SubElement(wkofmnth, "week_of_month", name="Week of month").text = str(entry[0].week_of_month)
 
-    tree = ET.ElementTree(root)
-    tree.write("data/event_database.xml")
-
-create_xml()
+# Assuming this function is part of a larger script where `db` and other necessary modules are defined.
 
 def ask_chatgpt(text):
     chat_completion = client.chat.completions.create(
