@@ -1,53 +1,77 @@
 import os
-from flask import Flask, render_template, request, jsonify
-from flask_socketio import SocketIO
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
+import time
+from __init__ import app, db, socketio
+from flask import render_template, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 from models.models import Event, EventCategory, Location, EventDays, Category
 
 load_dotenv()
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
-# app.config['SQLALCHEMY_TRACK_NOTIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-app.app_context().push()
-Migrate(app, db)
-
-socketio = SocketIO(app, cors_allowed_origins=['http://127.0.0.1:5000'])
 
 client = OpenAI(
     api_key=os.environ.get("OPENAI_API_KEY"),
 )
 
-# chat_completion = client.chat.completions.create(
-#     messages=[
-#         {
-#             "role": "user",
-#             "content": "What is your name?",
-#         }
-#     ],
-#     model="gpt-3.5-turbo",
+# assistant = client.beta.assistants.create(
+#     name="Locallink assistant",
+#     instructions="You're job is to recommend local activities to people that ask you questions. You'll have access to a list of activities with their categories and the times at which they take place. You cannot make up activities. The title of the activity should never be translated, leave it in the original language. You should always ask if there is clarification needed. Also ask follow up questions to get towards a recommendations.",
+#     tools=[{"type": "retrieval"}],
+#     model="gpt-3.5-turbo-1106"
+# )
+
+# thread = client.beta.threads.create()
+#
+# message = client.beta.threads.messages.create(
+#     thread_id=thread.id,
+#     role="user",
+#     content="I need to solve the equation `3x + 11 = 14`. Can you help me?"
 # )
 #
-# print(chat_completion.choices[0].message.content)
-# audio_file = open("uploads/recording.mp3", "rb")
-# transcript = client.audio.transcriptions.create(
-#     model="whisper-1",
-#     file=audio_file
+# run = client.beta.threads.runs.create(
+#     thread_id=thread.id,
+#     assistant_id=assistant.id
 # )
-# #
-# audio_file = open("uploads/recording.mp3", "rb")
-# translation = client.audio.translations.create(
-#     model="whisper-1",
-#     file=audio_file
+# time.sleep(20)
+#
+# run_status = client.beta.threads.runs.retrieve(
+#     thread_id=thread.id,
+#     run_id=run.id
 # )
 #
-# print(transcript.text)
-# print(translation)
+# if run_status.status == 'completed':
+#     messages = client.beta.threads.messages.list(
+#         thread_id=thread.id
+#     )
+#
+#     for msg in messages.data:
+#         role = msg.role
+#         content = msg.content[0].text.value
+#         print(f"{role.capitalize()}: {content}")
+
+# def ask_assistant(text):
+#     message = client.beta.threads.messages.create(
+#         thread_id=thread.id,
+#         role="user",
+#         content="Can you help me find an activity in the neighbourhood?"
+#     )
+#
+#     run = client.beta.threads.runs.create(
+#         thread_id=thread.id,
+#         assistant_id=assistant.id,
+#         instructions="Address the user as 'Nicky'.",
+#     )
+#
+#     run = client.beta.threads.runs.retrieve(
+#         thread_id=thread.id,
+#         run_id=run.id
+#     )
+#
+#     messages = client.beta.threads.messages.list(
+#         thread_id=thread.id
+#     )
+#     print(messages.data)
+#     return messages.data
 
 
 def ask_chatgpt(text):
