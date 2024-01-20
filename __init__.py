@@ -9,7 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite3'
 app.config['SQLALCHEMY_TRACK_NOTIFICATIONS'] = False
 
 db = SQLAlchemy(app)
-# app.app_context().push()
+app.app_context().push()
 # Migrate(app, db)
 
 socketio = SocketIO(app, cors_allowed_origins=['http://127.0.0.1:5000'])

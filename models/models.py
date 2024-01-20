@@ -36,7 +36,7 @@ class EventDays(db.Model):
     week_of_month = db.Column(db.Integer)
 
     def __repr__(self):
-        return f'Location: {self.id} {self.event_id} {self.day_of_week} {self.week_of_month}'
+        return f'EventDays: {self.id} | event_id: {self.event_id} | day_of_week: {self.day_of_week} | week_of_month: {self.week_of_month}'
 
 
 class EventCategory(db.Model):
@@ -45,7 +45,7 @@ class EventCategory(db.Model):
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), primary_key=True)
 
     def __repr__(self):
-        return f'Location: {self.category_id} {self.event_id}'
+        return f'EventCategory: | category_id: {self.category_id} | event_id: {self.event_id}'
 
 
 class Category(db.Model):
@@ -54,5 +54,5 @@ class Category(db.Model):
     name = db.Column(db.String(50), nullable=False, unique=True)
 
     def __repr__(self):
-        return f'Location: {self.id} {self.name}'
+        return f'Category: {self.id} {self.name}'
 
