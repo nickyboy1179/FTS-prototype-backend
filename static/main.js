@@ -1,5 +1,6 @@
 const mic_btn = document.querySelector('#mic');
 // const playback = document.querySelector('.playback')
+let thread_id
 
 mic_btn.addEventListener('click', ToggleMic);
 
@@ -11,9 +12,9 @@ let recorder = null;
 let chunks = [];
 
 const socket = io.connect('http://localhost:' + location.port);
-const message_board = document.querySelector('.message-box')
-const human_message = document.querySelector('.human-message')
-const bot_message = document.querySelector('.bot-message')
+const message_board = document.querySelector('#chat')
+const human_message = document.querySelector('.user-bubble')
+const bot_message = document.querySelector('.assistant-bubble')
 
 
 function SetupAudio() {
@@ -66,6 +67,7 @@ function ToggleMic() {
 function sendAudioToServer(audioBlob) {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'recording.mp3');
+    formData.append('thread_id', thread_id);
 
     fetch('/upload', {
         method: 'POST',
@@ -95,4 +97,9 @@ socket.on('send_bot_message', function(data) {
 socket.on('send_human_message', function(data) {
     // console.log(data)
     createChatBubble(human_message, data.data)
+})
+
+socket.on('send_thread_id', function(data) {
+    console.log(data)
+    thread_id = data.thread_id
 })

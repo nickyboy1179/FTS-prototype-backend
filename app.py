@@ -12,29 +12,29 @@ client = OpenAI(
 )
 
 assistant = client.beta.assistants.retrieve("asst_gIwlJp3ZPrZltTol8lKuS7tj")
+
 thread = client.beta.threads.create()
 
-
-def add_message_to_thread(text):
+def add_message_to_thread(text, thread_id):
     message = client.beta.threads.messages.create(
-        thread_id=thread.id,
+        thread_id=thread_id,
         role="user",
         content=text
     )
     return message
 
 
-def run_thread():
+def run_thread(thread_id):
     run = client.beta.threads.runs.create(
-        thread_id=thread.id,
+        thread_id=thread_id,
         assistant_id=assistant.id
     )
     return run
 
 
-def is_run_finished(run):
+def is_run_finished(run, thread_id):
     run_status = client.beta.threads.runs.retrieve(
-        thread_id=thread.id,
+        thread_id=thread_id,
         run_id=run.id
     )
     if run_status.status == 'completed':
@@ -43,9 +43,9 @@ def is_run_finished(run):
         return False
 
 
-def retrieve_recent_message():
+def retrieve_recent_message(thread_id):
     messages = client.beta.threads.messages.list(
-        thread_id=thread.id
+        thread_id=thread_id
     )
     return messages.data[0]
 
@@ -83,7 +83,10 @@ def translate_audio():
 
 @app.route('/')
 def index():
-    return render_template("index.html")
+
+    # print(thread.id)
+    # socketio.emit('send_thread_id', {'thread_id': thread.id})
+    return render_template("chatinterface.html")
 
 
 @app.route('/upload', methods=['POST'])
@@ -98,17 +101,19 @@ def upload():
 
     # Save the audio file to the server
     audio_file.save('uploads/recording.mp3')
-
+    # thread_id = request.form['thread_id']
+    thread_id = thread.id
     transcript = transcript_audio()
 
     socketio.emit('send_human_message', {'data': transcript})
 
-    message = add_message_to_thread(transcript)
-    run = run_thread()
-    while not is_run_finished(run):
-        time.sleep(0.2)
+    message = add_message_to_thread(transcript, thread_id)
+    run = run_thread(thread_id)
+    while not is_run_finished(run, thread_id):
+        time.sleep(1)
         print("Waiting")
-    response = retrieve_recent_message()
+        print(thread_id)
+    response = retrieve_recent_message(thread_id)
     socketio.emit('send_bot_message', {'data': response.content[0].text.value})
 
     return jsonify({'message': 'uploads uploaded successfully'})

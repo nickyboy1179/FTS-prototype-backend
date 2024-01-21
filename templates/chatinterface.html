@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/chatinteface.css">
+    <title>ChatGPT Example</title>
+
+</head>
+
+<body>
+    <div id="container">
+        <div id="sidebar">
+            <div class="sidebar-element" id="new-chat">New chat</div>
+            <div class="sidebar-element" id="Export chat">Export chat</div>
+            <div class="sidebar-element" id="settings">Settings</div>
+            <div class="sidebar-element" id="more info">More info</div>
+        </div>
+        <div id="content">
+            <div class="chat-wrapper">
+                <div id="chat">
+
+                    <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
+                    <div class="chat-bubble assistant-bubble">Hi there! I'm the assistant. How can I assist you today?</div>
+                </div>
+            </div>
+
+            <div id="input">
+                <!-- Input form for user messages -->
+                <input type="text" placeholder="Type your message...">
+
+                <button>Send</button>
+            </div>
+            <button class="mic-toggle" id="mic">
+            <span class="material-icons">mic</span>
+
+            </button>
+        </div>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+<script src="../static/main.js"></script>
+
+</html>

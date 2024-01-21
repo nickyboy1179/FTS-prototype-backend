@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .chat-container {
+            max-width: 600px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .chat-bubble {
+            clear: both;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            position: relative;
+        }
+
+        .user-bubble::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent transparent transparent #4CAF50;
+            transform: translateY(-50%);
+        }
+
+        .assistant-bubble::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent #ddd transparent transparent;
+            transform: translateY(-50%);
+        }
+
+        .user-bubble {
+            float: right;
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .assistant-bubble {
+            float: left;
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .options-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .option {
+            margin-bottom: 5px;
+        }
+
+        #question-input {
+            width: 80%;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        #submit-button {
+            width: 80%;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
+        <div class="chat-bubble assistant-bubble">
+            Sure, here are some options for you:
+            <ul class="options-list">
+                <li class="option">Option 1</li>
+                <li class="option">Option 2</li>
+                <li class="option">Option 3</li>
+            </ul>
+        </div>
+        <!-- Add more chat bubbles as needed -->
+    </div>
+
+    <form>
+        <input type="text" id="question-input" placeholder="Type your question...">
+        <button type="submit" id="submit-button">Submit</button>
+    </form>
+
+</body>
+</html>
