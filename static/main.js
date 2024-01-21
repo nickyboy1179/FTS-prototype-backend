@@ -13,8 +13,10 @@ let chunks = [];
 
 const socket = io.connect('http://localhost:' + location.port);
 const message_board = document.querySelector('#chat')
-const human_message = document.querySelector('.user-bubble')
-const bot_message = document.querySelector('.assistant-bubble')
+const human_message = document.querySelector('.user-bubble-wrapper')
+const human_message_content = document.querySelector('.user-bubble')
+const bot_message = document.querySelector('.assistant-bubble-wrapper')
+const bot_message_content = document.querySelector('.assistant-bubble')
 
 
 function SetupAudio() {
@@ -69,6 +71,7 @@ function sendAudioToServer(audioBlob) {
     formData.append('audio', audioBlob, 'recording.mp3');
     formData.append('thread_id', thread_id);
 
+    console.log('sending audio')
     fetch('/upload', {
         method: 'POST',
         body: formData,
@@ -82,21 +85,25 @@ function sendAudioToServer(audioBlob) {
         })
 }
 
-function createChatBubble(sourceDiv, text) {
+function createChatBubble(sourceDiv, text, is_human) {
+    if (is_human) {
+       human_message_content.textContent = text; 
+    } else {
+        bot_message_content.textContent = text;
+    }
     let copiedDiv = sourceDiv.cloneNode(true);
     copiedDiv.style.display = 'flex';
-    copiedDiv.textContent = text;
     message_board.appendChild(copiedDiv)
 }
 
 socket.on('send_bot_message', function(data) {
-    // console.log(data)
-    createChatBubble(bot_message, data.data)
+    console.log(data)
+    createChatBubble(bot_message, data.data, false)
 })
 
 socket.on('send_human_message', function(data) {
-    // console.log(data)
-    createChatBubble(human_message, data.data)
+    console.log(data)
+    createChatBubble(human_message, data.data, true)
 })
 
 socket.on('send_thread_id', function(data) {

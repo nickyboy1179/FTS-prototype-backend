@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../static/chatinteface.css">
+
     <title>ChatGPT Example</title>
 
 </head>
@@ -18,24 +21,34 @@
             <div class="sidebar-element" id="more info">More info</div>
         </div>
         <div id="content">
-            <div class="chat-wrapper">
-                <div id="chat">
-
-                    <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
-                    <div class="chat-bubble assistant-bubble">Hi there! I'm the assistant. How can I assist you today?</div>
+            <div class="content-wrapper">
+                <div class="chat-wrapper">
+                    <div id="chat">
+                        <div class="chat-bubble-wrapper user-bubble-wrapper">
+                            <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
+                            <img id='user-image' src="../static/images/Chatbot_character_man@2x.png" alt="User icon" width="70" height="70">
+                        </div>
+                        <div class="chat-bubble-wrapper assistant-bubble-wrapper">
+                            <img id='assistant-image' src="../static/images/Chatbot_character_robot@2x.png" alt="Assistant icon" width="70" height="70">
+                            <div class="chat-bubble assistant-bubble">Hi there! I'm the assistant. How can I assist you today?</div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div id="input">
-                <!-- Input form for user messages -->
-                <input type="text" placeholder="Type your message...">
+            <div class="input-wrapper">
+                <div id="input">
+                    <button class="mic-toggle" id="mic">
+                        <span class="material-icons">mic</span>
+                    </button>
 
-                <button>Send</button>
+                    <input type="text" placeholder="Type your message...">
+
+                    <button>
+                        <span class="material-icons">send</span>
+                    </button>
+                </div>
             </div>
-            <button class="mic-toggle" id="mic">
-            <span class="material-icons">mic</span>
-
-            </button>
         </div>
     </div>
 </body>
