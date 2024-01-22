@@ -115,7 +115,8 @@ function createChatBubble(sourceDiv, text, is_human) {
     if (is_human) {
        human_message_content.textContent = text; 
     } else {
-        bot_message_content.textContent = text;
+        console.log(text)
+        bot_message_content.innerHTML  = text.replace(/\n/g, '<br>');
     }
     let copiedDiv = sourceDiv.cloneNode(true);
     copiedDiv.style.display = 'flex';
