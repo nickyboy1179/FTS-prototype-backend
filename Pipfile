@@ -8,9 +8,12 @@ flask = "*"
 openai = "*"
 python-dotenv = "*"
 flask-socketio = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.12"
 python_full_version = "3.12.0"
+
