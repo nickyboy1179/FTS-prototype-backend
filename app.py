@@ -1,4 +1,4 @@
-import os, time, json
+import os, time, json, html
 from __init__ import app, db, socketio
 from flask import render_template, request, jsonify
 from openai import OpenAI
@@ -84,8 +84,9 @@ def translate_audio():
 
 @app.route('/', methods=['GET'])
 def index():
-
-    # print(thread.id)
+    global thread
+    thread = client.beta.threads.create()
+    print(thread.id)
     # socketio.emit('send_thread_id', {'thread_id': thread.id})
     return render_template("chatinterface.html")
 
@@ -111,10 +112,14 @@ def process_input():
     response = retrieve_recent_message(thread_id)
     message_content = response.content[0].text
     annotations = message_content.annotations
+    print(message_content.value)
 
-    for annotation in enumerate(annotations):
+    for index, annotation in enumerate(annotations):
+        # Replace the text with a footnote
         message_content.value = message_content.value.replace(annotation.text, f'')
 
+    # message_content.value = message_content.value.replace('\n', '<br>')
+    # message_content.value = html.unescape(message_content.value)
     socketio.emit('send_bot_message', {'data': message_content.value})
 
     return jsonify({"message": "input successfully handled"})
