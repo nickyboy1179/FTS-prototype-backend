@@ -62,9 +62,11 @@ function ToggleMic() {
     if (is_recording) {
         recorder.start();
         mic_btn.classList.add("is-recording")
+        mic_btn.style.color="red";
     } else {
         recorder.stop();
         mic_btn.classList.remove("is-recording")
+        mic_btn.style.color="black";
     }
 }
 
@@ -120,6 +122,10 @@ function createChatBubble(sourceDiv, text, is_human) {
     message_board.appendChild(copiedDiv)
 }
 
+ document.getElementById('new-chat').addEventListener('click', function() {
+     location.reload();
+ });
+
 socket.on('send_bot_message', function(data) {
     console.log(data)
     createChatBubble(bot_message, data.data, false)
@@ -133,4 +139,9 @@ socket.on('send_human_message', function(data) {
 socket.on('send_thread_id', function(data) {
     console.log(data)
     thread_id = data.thread_id
+})
+
+socket.on('receive_audio_transcript', function(data) {
+    console.log(data)
+    input_field.value=data.data
 })
