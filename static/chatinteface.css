@@ -57,7 +57,7 @@ body {
 #chat {
     padding: 20px;
     overflow-y: auto;
-    max-height: 500px;
+    height: calc(100vh - 200px);
     width: 1300px;
 }
 
@@ -69,6 +69,7 @@ body {
     display: grid;
     justify-content: center;
     align-items: center;
+    height:100%;
 }
 
 .chat-bubble-wrapper {
@@ -93,6 +94,7 @@ body {
     max-width: 80%;
     word-wrap: break-word;
     position: relative;
+    font-size: 2rem;
 }
 
 .user-bubble {
@@ -145,7 +147,6 @@ body {
 
 #input {
     display: flex;
-    align-items: center;
     justify-content: center;
     max-width: 1300px;
     width:100%;
@@ -171,6 +172,7 @@ body {
     height: 88px;
     padding-left:20px;
     padding-right:20px;
+    font-size: 2rem;
 }
 
 #input button {

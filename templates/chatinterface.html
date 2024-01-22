@@ -1,58 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
+{%  extends "template.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block content %}
 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="../static/chatinteface.css">
-
-    <title>ChatGPT Example</title>
-
-</head>
-
-<body>
-    <div id="container">
-        <div id="sidebar">
-            <div class="sidebar-element" id="new-chat">New chat</div>
-            <div class="sidebar-element" id="Export chat">Export chat</div>
-            <div class="sidebar-element" id="settings">Settings</div>
-            <div class="sidebar-element" id="more info">More info</div>
-        </div>
-        <div id="content">
-            <div class="content-wrapper">
-                <div class="chat-wrapper">
-                    <div id="chat">
-                        <div class="chat-bubble-wrapper user-bubble-wrapper">
-                            <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
-                            <img id='user-image' src="../static/images/Chatbot_character_man@2x.png" alt="User icon" width="70" height="70">
-                        </div>
-                        <div class="chat-bubble-wrapper assistant-bubble-wrapper">
-                            <img id='assistant-image' src="../static/images/Chatbot_character_robot@2x.png" alt="Assistant icon" width="70" height="70">
-                            <div class="chat-bubble assistant-bubble">Hi there! I'm the assistant. How can I assist you today?</div>
-                        </div>
+    <div id="content">
+        <div class="content-wrapper">
+            <div class="chat-wrapper">
+                <div id="chat">
+                    <div class="chat-bubble-wrapper user-bubble-wrapper">
+                        <div class="chat-bubble user-bubble">Hello, how can I help you?</div>
+                        <img id='user-image' src="../static/images/Chatbot_character_man@2x.png" alt="User icon" width="70" height="70">
+                    </div>
+                    <div class="chat-bubble-wrapper assistant-bubble-wrapper">
+                        <img id='assistant-image' src="../static/images/Chatbot_character_robot@2x.png" alt="Assistant icon" width="70" height="70">
+                        <div class="chat-bubble assistant-bubble">Hi there! I'm the assistant. How can I assist you today?</div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="input-wrapper">
-                <div id="input">
-                    <button class="mic-toggle" id="mic">
+        <div class="input-wrapper">
+            <div id="input">
+
+                    <button type='button' class="mic-toggle" id="mic">
                         <span class="material-icons">mic</span>
                     </button>
 
-                    <input type="text" placeholder="Type your message...">
 
-                    <button>
+                    <input type="text" autocomplete="off" id="user_input" name="user_input" placeholder="Type your message...">
+
+
+                    <button type="submit" id="send_btn">
                         <span class="material-icons">send</span>
                     </button>
-                </div>
+
             </div>
         </div>
     </div>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
-<script src="../static/main.js"></script>
 
-</html>
+{% endblock %}

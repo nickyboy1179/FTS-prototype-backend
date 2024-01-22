@@ -89,6 +89,25 @@ def index():
     return render_template("chatinterface.html")
 
 
+@app.route('/process_input', methods=['POST'])
+def process_input():
+    user_input = request.form.get('user_input')
+
+    print(f"Received input: {user_input}")
+
+    socketio.emit('send_human_message', {'data': user_input})
+    thread_id = thread.id
+    message = add_message_to_thread(user_input, thread_id)
+    run = run_thread(thread_id)
+    while not is_run_finished(run, thread_id):
+        time.sleep(1)
+        print("Waiting")
+        print(thread_id)
+    response = retrieve_recent_message(thread_id)
+    socketio.emit('send_bot_message', {'data': response.content[0].text.value})
+    return jsonify({"message": "input successfully handled"})
+
+
 @app.route('/upload', methods=['POST'])
 def upload():
     if 'audio' not in request.files:

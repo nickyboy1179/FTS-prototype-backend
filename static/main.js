@@ -1,8 +1,10 @@
 const mic_btn = document.querySelector('#mic');
-// const playback = document.querySelector('.playback')
+const send_btn = document.querySelector('#send_btn')
+const input_field = document.querySelector('#user_input')
 let thread_id
 
 mic_btn.addEventListener('click', ToggleMic);
+send_btn.addEventListener('click', SendButtonClicked);
 
 let can_record = false;
 let is_recording = false;
@@ -52,7 +54,7 @@ function SetupStream(stream) {
 }
 
 function ToggleMic() {
-    console.log(can_record)
+    // console.log(can_record)
     if (!can_record) return;
 
     is_recording = !is_recording;
@@ -66,12 +68,17 @@ function ToggleMic() {
     }
 }
 
+function SendButtonClicked() {
+    sendTextToServer(input_field.value)
+    input_field.value = "";
+}
+
 function sendAudioToServer(audioBlob) {
     const formData = new FormData();
     formData.append('audio', audioBlob, 'recording.mp3');
     formData.append('thread_id', thread_id);
 
-    console.log('sending audio')
+    // console.log('sending audio')
     fetch('/upload', {
         method: 'POST',
         body: formData,
@@ -82,6 +89,23 @@ function sendAudioToServer(audioBlob) {
         })
         .catch(error => {
             console.error('Error uploading audio: ', error)
+        })
+}
+
+function sendTextToServer(text) {
+    const formData = new FormData();
+    formData.append('user_input', text)
+    console.log('sending user_input')
+    fetch('/process_input', {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data)
+        })
+        .catch(error => {
+            console.error('Error sending user input: ', error)
         })
 }
 
