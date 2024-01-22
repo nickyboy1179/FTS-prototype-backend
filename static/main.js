@@ -134,3 +134,8 @@ socket.on('send_thread_id', function(data) {
     console.log(data)
     thread_id = data.thread_id
 })
+
+socket.on('receive_audio_transcript', function(data) {
+    console.log(data)
+    input_field.value=data.data
+})

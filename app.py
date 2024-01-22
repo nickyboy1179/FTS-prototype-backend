@@ -15,6 +15,7 @@ assistant = client.beta.assistants.retrieve("asst_gIwlJp3ZPrZltTol8lKuS7tj")
 
 thread = client.beta.threads.create()
 
+
 def add_message_to_thread(text, thread_id):
     message = client.beta.threads.messages.create(
         thread_id=thread_id,
@@ -97,14 +98,20 @@ def process_input():
 
     socketio.emit('send_human_message', {'data': user_input})
     thread_id = thread.id
+
     message = add_message_to_thread(user_input, thread_id)
+
     run = run_thread(thread_id)
+
     while not is_run_finished(run, thread_id):
         time.sleep(1)
         print("Waiting")
         print(thread_id)
+
     response = retrieve_recent_message(thread_id)
+
     socketio.emit('send_bot_message', {'data': response.content[0].text.value})
+
     return jsonify({"message": "input successfully handled"})
 
 
@@ -118,22 +125,11 @@ def upload():
     if audio_file.filename == '':
         return jsonify({'error': 'No selected file'}), 400
 
-    # Save the audio file to the server
     audio_file.save('uploads/recording.mp3')
-    # thread_id = request.form['thread_id']
-    thread_id = thread.id
+
     transcript = transcript_audio()
 
-    socketio.emit('send_human_message', {'data': transcript})
-
-    message = add_message_to_thread(transcript, thread_id)
-    run = run_thread(thread_id)
-    while not is_run_finished(run, thread_id):
-        time.sleep(1)
-        print("Waiting")
-        print(thread_id)
-    response = retrieve_recent_message(thread_id)
-    socketio.emit('send_bot_message', {'data': response.content[0].text.value})
+    socketio.emit('receive_audio_transcript', {'data': transcript})
 
     return jsonify({'message': 'uploads uploaded successfully'})
 
