@@ -109,8 +109,13 @@ def process_input():
         print(thread_id)
 
     response = retrieve_recent_message(thread_id)
+    message_content = response.content[0].text
+    annotations = message_content.annotations
 
-    socketio.emit('send_bot_message', {'data': response.content[0].text.value})
+    for annotation in enumerate(annotations):
+        message_content.value = message_content.value.replace(annotation.text, f'')
+
+    socketio.emit('send_bot_message', {'data': message_content.value})
 
     return jsonify({"message": "input successfully handled"})
 
