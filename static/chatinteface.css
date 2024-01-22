@@ -186,6 +186,10 @@ body {
     cursor: pointer;
 }
 
+#send_btn span{
+    width: 65%;
+}
+
 #input button span {
     font-size: 3rem;
 }
