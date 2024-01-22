@@ -116,11 +116,24 @@ function createChatBubble(sourceDiv, text, is_human) {
        human_message_content.textContent = text; 
     } else {
         console.log(text)
-        bot_message_content.innerHTML  = text.replace(/\n/g, '<br>');
+        bot_message_content.innerHTML  = replaceDoubleAsteriskBold(replaceDoubleAsterisksHyphen(replaceSingleAsterisksHyphen(text.replace(/\n/g, '<br>'))));
     }
     let copiedDiv = sourceDiv.cloneNode(true);
     copiedDiv.style.display = 'flex';
     message_board.appendChild(copiedDiv)
+}
+
+// Chatgpt is weirdly inconsistent in the formatting it gives when listing out options. these should cover them
+function replaceDoubleAsteriskBold(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+}
+
+function replaceDoubleAsterisksHyphen(text) {
+    return text.replace(/- \*\*(.*?)\*\*/g, '- $1');
+}
+
+function replaceSingleAsterisksHyphen(text) {
+    return text.replace(/- \*(.*?)\*/g, '- $1');
 }
 
  document.getElementById('new-chat').addEventListener('click', function() {

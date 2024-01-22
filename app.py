@@ -82,13 +82,23 @@ def translate_audio():
     return translate.text
 
 
-@app.route('/', methods=['GET'])
+@app.route('/')
 def index():
     global thread
     thread = client.beta.threads.create()
     print(thread.id)
     # socketio.emit('send_thread_id', {'thread_id': thread.id})
-    return render_template("chatinterface.html")
+    return render_template("chatinterface.html", current_endpoint=request.endpoint)
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html", current_endpoint=request.endpoint)
+
+
+@app.route('/settings')
+def settings():
+    return render_template("settings.html", current_endpoint=request.endpoint)
 
 
 @app.route('/process_input', methods=['POST'])
@@ -107,6 +117,7 @@ def process_input():
     while not is_run_finished(run, thread_id):
         time.sleep(1)
         print("Waiting")
+        # print(run.status)
         print(thread_id)
 
     response = retrieve_recent_message(thread_id)
@@ -115,11 +126,9 @@ def process_input():
     print(message_content.value)
 
     for index, annotation in enumerate(annotations):
-        # Replace the text with a footnote
+        print(annotation.text)
         message_content.value = message_content.value.replace(annotation.text, f'')
 
-    # message_content.value = message_content.value.replace('\n', '<br>')
-    # message_content.value = html.unescape(message_content.value)
     socketio.emit('send_bot_message', {'data': message_content.value})
 
     return jsonify({"message": "input successfully handled"})
