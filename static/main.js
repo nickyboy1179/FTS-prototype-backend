@@ -62,9 +62,11 @@ function ToggleMic() {
     if (is_recording) {
         recorder.start();
         mic_btn.classList.add("is-recording")
+        mic_btn.style.color="red";
     } else {
         recorder.stop();
         mic_btn.classList.remove("is-recording")
+        mic_btn.style.color="black";
     }
 }
 
@@ -119,6 +121,10 @@ function createChatBubble(sourceDiv, text, is_human) {
     copiedDiv.style.display = 'flex';
     message_board.appendChild(copiedDiv)
 }
+
+ document.getElementById('new-chat').addEventListener('click', function() {
+     location.reload();
+ });
 
 socket.on('send_bot_message', function(data) {
     console.log(data)

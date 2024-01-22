@@ -82,7 +82,7 @@ def translate_audio():
     return translate.text
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
 
     # print(thread.id)
