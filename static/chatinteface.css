@@ -218,4 +218,24 @@ body {
     }
 }
 
+@keyframes typing {
+    0%, 100% { opacity: 0; }
+    25% { opacity: 1; }
+    50% { opacity: 0; }
+    75% { opacity: 1; }
+}
 
+.typing-indicator {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 8px; /* Adjust the width as needed */
+    height: 8px; /* Adjust the height as needed */
+    background-color: #333; /* Adjust the color as needed */
+    border-radius: 50%;
+    margin-right: 3px; /* Adjust the spacing as needed */
+    animation: typing 3s infinite;
+}

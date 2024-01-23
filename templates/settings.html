@@ -2,6 +2,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="../static/settings.css">
+    <div id="contentsettings">
 <form action="/settings" method="post">
     <h4>Add a new event to database</h4>
     <!-- Text Input Fields -->
@@ -63,7 +64,8 @@
 
     <input type="submit" value="Submit">
 </form>
-
-
-
+    <label for="send_to_assistant">Once database is updated. Update data for the Assistant</label>
+    <button id="send_to_assistant">Send data to Assistant</button>
+</div>
+<script src="../static/settings.js"></script>
 {% endblock %}

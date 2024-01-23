@@ -119,16 +119,19 @@ def settings():
         hours, minutes = map(int, start_time.split(':'))
         start_time = datetime.time(hours, minutes)
         hours, minutes = map(int, end_time.split(':'))
-        end_time = datetime.time(hours,minutes)
+        end_time = datetime.time(hours, minutes)
 
         # create the new location in database
-        new_location = Location(location_name=location_name, street_name=street_name, house_number=house_number, location_notes=location_notes)
+        new_location = Location(location_name=location_name, street_name=street_name, house_number=house_number,
+                                location_notes=location_notes)
         db.session.add(new_location)
         db.session.commit()
         new_location_id = new_location.id
 
         # create the new event in database
-        new_event = Event(name=event_name, description=event_description, cost_of_entry=cost_of_entry, organizers_notes=event_notes, start_time=start_time, end_time=end_time, location_id=new_location_id)
+        new_event = Event(name=event_name, description=event_description, cost_of_entry=cost_of_entry,
+                          organizers_notes=event_notes, start_time=start_time, end_time=end_time,
+                          location_id=new_location_id)
         db.session.add(new_event)
         db.session.commit()
         new_event_id = new_event.id
@@ -141,7 +144,7 @@ def settings():
         db.session.add(new_event_days)
         db.session.commit()
 
-        #grab category id
+        # grab category id
         category_id = db.session.execute(db.select(Category.id).filter_by(name=category)).scalar_one()
 
         new_event_category = EventCategory(category_id=category_id, event_id=new_event_id)
@@ -169,12 +172,12 @@ def process_input():
 
     run = run_thread(thread_id)
 
+    socketio.emit('waiting_for_response')
     while not is_run_finished(run, thread_id):
         time.sleep(1)
         print("Waiting")
         # print(run.status)
         print(thread_id)
-
     response = retrieve_recent_message(thread_id)
     message_content = response.content[0].text
     annotations = message_content.annotations
@@ -207,6 +210,37 @@ def upload():
     socketio.emit('receive_audio_transcript', {'data': transcript})
 
     return jsonify({'message': 'uploads uploaded successfully'})
+
+
+@app.route('/send-to-assistant')
+def send_to_assistant():
+    assistant_files = client.beta.assistants.files.list(
+        assistant_id=assistant.id
+    )
+    try:
+        assistant_file_id = assistant_files.data[0].id
+
+        # remove old file from its database
+        deleted_assistant_file = client.beta.assistants.files.delete(
+            assistant_id=assistant.id,
+            file_id=assistant_file_id
+        )
+    except:
+        print('no file existing')
+
+    # create new file from database
+    create_json()
+    file_path = 'data/events_data.json'
+
+    with open(file_path, 'rb') as file:
+        uploaded_file = client.files.create(file=file, purpose='assistants')
+
+    assistant_file = client.beta.assistants.files.create(
+        assistant_id=assistant.id,
+        file_id=uploaded_file.id
+    )
+    print(f"file sucesssfully uploaded '{uploaded_file.id}'")
+    return jsonify({'message': 'success!'})
 
 
 def create_json():

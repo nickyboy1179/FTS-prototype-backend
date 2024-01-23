@@ -20,7 +20,6 @@ const human_message_content = document.querySelector('.user-bubble')
 const bot_message = document.querySelector('.assistant-bubble-wrapper')
 const bot_message_content = document.querySelector('.assistant-bubble')
 
-
 function SetupAudio() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia()) {
         navigator.mediaDevices
@@ -111,16 +110,34 @@ function sendTextToServer(text) {
         })
 }
 
-function createChatBubble(sourceDiv, text, is_human) {
-    if (is_human) {
-       human_message_content.textContent = text; 
-    } else {
-        console.log(text)
-        bot_message_content.innerHTML  = replaceDoubleAsteriskBold(replaceDoubleAsterisksHyphen(replaceSingleAsterisksHyphen(text.replace(/\n/g, '<br>'))));
-    }
+function createHumanChatBubble(sourceDiv, text) {
+    human_message_content.textContent = text;
     let copiedDiv = sourceDiv.cloneNode(true);
     copiedDiv.style.display = 'flex';
     message_board.appendChild(copiedDiv)
+}
+
+function createBotChatBubble(sourceDiv, text) {
+    if (text === '') {
+        console.log('no text')
+        bot_message_content.innerHTML = '<div class="typing-indicator" id="assistant-typing-indicator">\n' +
+            '                                 <span></span>\n' +
+            '                                <span></span>\n' +
+            '                                <span></span>\n' +
+            '                            </div>'
+        let copiedDiv = sourceDiv.cloneNode(true);
+        copiedDiv.style.display = 'flex';
+        message_board.appendChild(copiedDiv)
+    }
+    else {
+        //remove the typing indicator
+        message_board.removeChild(message_board.lastChild)
+
+        bot_message_content.innerHTML  = replaceDoubleAsteriskBold(text.replace(/\n/g, '<br>'));
+        let copiedDiv = sourceDiv.cloneNode(true);
+        copiedDiv.style.display = 'flex';
+        message_board.appendChild(copiedDiv)
+    }
 }
 
 // Chatgpt is weirdly inconsistent in the formatting it gives when listing out options. these should cover them
@@ -128,18 +145,8 @@ function replaceDoubleAsteriskBold(text) {
     return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 }
 
-function replaceDoubleAsterisksHyphen(text) {
-    return text.replace(/- \*\*(.*?)\*\*/g, '- $1');
-}
-
-function replaceSingleAsterisksHyphen(text) {
-    return text.replace(/- \*(.*?)\*/g, '- $1');
-}
-
 document.addEventListener("keydown", function (event) {
-  // Check if the pressed key is Enter (key code 13)
   if (event.key === "Enter") {
-    // Call your function when the Enter key is pressed
     SendButtonClicked();
   }
 });
@@ -149,21 +156,26 @@ document.addEventListener("keydown", function (event) {
  });
 
 socket.on('send_bot_message', function(data) {
-    console.log(data)
-    createChatBubble(bot_message, data.data, false)
+    // console.log(data)
+    createBotChatBubble(bot_message, data.data)
 })
 
 socket.on('send_human_message', function(data) {
-    console.log(data)
-    createChatBubble(human_message, data.data, true)
+    // console.log(data)
+    createHumanChatBubble(human_message, data.data)
 })
 
 socket.on('send_thread_id', function(data) {
-    console.log(data)
+    // console.log(data)
     thread_id = data.thread_id
 })
 
 socket.on('receive_audio_transcript', function(data) {
-    console.log(data)
+    // console.log(data)
     input_field.value=data.data
+})
+
+socket.on('waiting_for_response', function() {
+    // console.log('waiting for response')
+    createBotChatBubble(bot_message, '')
 })
