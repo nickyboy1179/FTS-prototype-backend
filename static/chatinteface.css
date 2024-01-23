@@ -52,18 +52,16 @@ body {
 
 #content {
     display: flex;
-    /*padding: 20px;*/
     align-items: center;
     flex-direction: column;
-    position: relative;
-    width:100%;
+    width:calc(100vw - 240px);
 }
 
 .content-wrapper {
     display:grid;
     grid-template-columns: 1fr;
     align-items: center;
-    width:calc(100vw - 280px);
+    width:auto;
     height:100vh;
 }
 
@@ -83,6 +81,7 @@ body {
     justify-content: center;
     align-items: center;
     height:100%;
+    width:auto;
 }
 
 .chat-bubble-wrapper {

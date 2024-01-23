@@ -1,4 +1,4 @@
-import os, time, json, html
+import os, json, time, datetime
 from __init__ import app, db, socketio
 from flask import render_template, request, jsonify
 from openai import OpenAI
@@ -96,12 +96,67 @@ def about():
     return render_template("about.html", current_endpoint=request.endpoint)
 
 
-@app.route('/settings')
+@app.route('/settings', methods=['GET', 'POST'])
 def settings():
-    return render_template("settings.html", current_endpoint=request.endpoint)
+    if request.method == 'POST':
+        if not request.form:
+            return jsonify({'message': 'form not included'})
+        print(request.form)
+        event_name = request.form.get('event_name')
+        event_description = request.form.get('event_description')
+        event_notes = request.form.get('event_notes')
+        location_name = request.form.get('location_name')
+        street_name = request.form.get('street_name')
+        house_number = request.form.get('house_number')
+        location_notes = request.form.get('location_notes')
+        cost_of_entry = request.form.get('cost_of_entry')
+        category = request.form.get('category')
+        day_of_week = request.form.get('dayOfWeek')
+        week_of_month = request.form.get('weekOfMonth')
+        start_time = request.form.get('startTime')
+        end_time = request.form.get('endTime')
+
+        hours, minutes = map(int, start_time.split(':'))
+        start_time = datetime.time(hours, minutes)
+        hours, minutes = map(int, end_time.split(':'))
+        end_time = datetime.time(hours,minutes)
+
+        # create the new location in database
+        new_location = Location(location_name=location_name, street_name=street_name, house_number=house_number, location_notes=location_notes)
+        db.session.add(new_location)
+        db.session.commit()
+        new_location_id = new_location.id
+
+        # create the new event in database
+        new_event = Event(name=event_name, description=event_description, cost_of_entry=cost_of_entry, organizers_notes=event_notes, start_time=start_time, end_time=end_time, location_id=new_location_id)
+        db.session.add(new_event)
+        db.session.commit()
+        new_event_id = new_event.id
+
+        # create new eventdays entry in database
+        if week_of_month == 0:
+            new_event_days = EventDays(event_id=new_event_id, day_of_week=day_of_week)
+        else:
+            new_event_days = EventDays(event_id=new_event_id, day_of_week=day_of_week, week_of_month=week_of_month)
+        db.session.add(new_event_days)
+        db.session.commit()
+
+        #grab category id
+        category_id = db.session.execute(db.select(Category.id).filter_by(name=category)).scalar_one()
+
+        new_event_category = EventCategory(category_id=category_id, event_id=new_event_id)
+        db.session.add(new_event_category)
+        db.session.commit()
+
+    result = db.session.execute(db.select(Category.name))
+    categories = result.fetchall()
+    category_list = []
+    for category in categories:
+        category_list.append(category[0])
+    return render_template("settings.html", current_endpoint=request.endpoint, categorylist=category_list)
 
 
-@app.route('/process_input', methods=['POST'])
+@app.route('/process-input', methods=['POST'])
 def process_input():
     user_input = request.form.get('user_input')
 
@@ -123,10 +178,11 @@ def process_input():
     response = retrieve_recent_message(thread_id)
     message_content = response.content[0].text
     annotations = message_content.annotations
-    print(message_content.value)
+    # print(message_content.value)
 
+    # have to leave index here for some reason....
     for index, annotation in enumerate(annotations):
-        print(annotation.text)
+        # print(annotation.text)
         message_content.value = message_content.value.replace(annotation.text, f'')
 
     socketio.emit('send_bot_message', {'data': message_content.value})

@@ -98,7 +98,7 @@ function sendTextToServer(text) {
     const formData = new FormData();
     formData.append('user_input', text)
     console.log('sending user_input')
-    fetch('/process_input', {
+    fetch('/process-input', {
         method: 'POST',
         body: formData,
     })
@@ -135,6 +135,14 @@ function replaceDoubleAsterisksHyphen(text) {
 function replaceSingleAsterisksHyphen(text) {
     return text.replace(/- \*(.*?)\*/g, '- $1');
 }
+
+document.addEventListener("keydown", function (event) {
+  // Check if the pressed key is Enter (key code 13)
+  if (event.key === "Enter") {
+    // Call your function when the Enter key is pressed
+    SendButtonClicked();
+  }
+});
 
  document.getElementById('new-chat').addEventListener('click', function() {
      location.reload();
