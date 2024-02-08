@@ -3,7 +3,8 @@ form {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    width: 300px;
+    width: 500px;
+    margin-right: 20px;
 }
 
 h4 {
@@ -62,6 +63,21 @@ button:hover {
     background-color: #45a049;
 }
 
-#contentsettings {
+#content_settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem;
+    justify-content: center;
+}
 
+#update_assistant_data {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 500px;
+}
+
+#update_assistant_data p {
+    font-size: 1.2rem;
 }
