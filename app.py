@@ -5,16 +5,6 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from models.models import Event, EventCategory, Location, EventDays, Category
 
-load_dotenv()
-
-client = OpenAI(
-    api_key=os.environ.get("OPENAI_API_KEY"),
-)
-
-assistant = client.beta.assistants.retrieve("asst_gIwlJp3ZPrZltTol8lKuS7tj")
-
-thread = client.beta.threads.create()
-
 
 def add_message_to_thread(text, thread_id):
     message = client.beta.threads.messages.create(
@@ -168,7 +158,7 @@ def process_input():
     socketio.emit('send_human_message', {'data': user_input})
     thread_id = thread.id
 
-    message = add_message_to_thread(user_input, thread_id)
+    add_message_to_thread(user_input, thread_id)
 
     run = run_thread(thread_id)
 
@@ -176,16 +166,13 @@ def process_input():
     while not is_run_finished(run, thread_id):
         time.sleep(1)
         print("Waiting")
-        # print(run.status)
         print(thread_id)
     response = retrieve_recent_message(thread_id)
     message_content = response.content[0].text
     annotations = message_content.annotations
-    # print(message_content.value)
 
     # have to leave index here for some reason....
     for index, annotation in enumerate(annotations):
-        # print(annotation.text)
         message_content.value = message_content.value.replace(annotation.text, f'')
 
     socketio.emit('send_bot_message', {'data': message_content.value})
@@ -213,7 +200,7 @@ def upload():
 
 
 @app.route('/send-to-assistant')
-def send_to_assistant():
+def send_database_to_assistant():
     assistant_files = client.beta.assistants.files.list(
         assistant_id=assistant.id
     )
@@ -239,7 +226,7 @@ def send_to_assistant():
         assistant_id=assistant.id,
         file_id=uploaded_file.id
     )
-    print(f"file sucesssfully uploaded '{uploaded_file.id}'")
+    print(f"file successfully uploaded '{uploaded_file.id}'")
     return jsonify({'message': 'success!'})
 
 
@@ -279,6 +266,49 @@ def create_json():
     with open('data/events_data.json', 'w') as json_file:
         json.dump(events_data, json_file, indent=2)
 
+
+def create_env_file():
+    if not os.path.exists('.env'):
+        with open('.env', 'w') as f:
+            f.write("OPENAI_API_KEY='your_secret_key_here'\n")
+
+
+create_env_file()
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.environ.get("OPENAI_API_KEY"),
+)
+
+
+def create_assistant():
+    client.beta.assistants.create(
+        instructions="You will provide information related to the Netherlands. Acts as a guide for local events in Selwerd, which is a neighbourhood in the city of Groningen. Avoid politics controversial topics, unrelated subjects. Help users find events that match their interests. Do not create made-up events Only create events based on data you are given in editing mode. Data cannot be added from the user's part, only in editing mode. Data cannot be altered. Data set specifies: Name, Categories, Description, start time , end time, location, Cost of entry and Organizers note's. Offer user-friendly event search and filter options.",
+        name="Local Link",
+        tools=[{"type": "retrieval"}],
+        model="gpt-4-1106-preview",
+    )
+
+
+def retrieve_assistant():
+    global assistant
+    my_assistants = client.beta.assistants.list(
+        order="desc",
+        limit=20,
+    )
+    for asis in my_assistants.data:
+        if asis.name == 'Local Link':
+            return asis
+
+    # assistant not found in OpenAI account:
+    create_assistant()
+    send_database_to_assistant()
+    retrieve_assistant()
+
+
+assistant = retrieve_assistant()
+
+thread = client.beta.threads.create()
 
 if __name__ == '__main__':
     app.run(debug=True)
