@@ -10,11 +10,9 @@
 <body>
     <div id="container">
         <div id="sidebar">
-            <div class="sidebar-element" id="new-chat" >
-                New chat
-            </div>
-            <div class="sidebar-element" id="settings">Settings</div>
-            <div class="sidebar-element" id="more info">More info</div>
+            <div class="sidebar-element" id="new-chat" ><a href="{{ url_for('index') }}">New Chat</a></div>
+            <div class="sidebar-element" id="settings"><a href="{{ url_for('settings') }}">Settings</a></div>
+            <div class="sidebar-element" id="more info"><a href="{{ url_for('about') }}">More info</a></div>
         </div>
 
         {% block content %}
@@ -23,7 +21,7 @@
 
     </div>
 </body>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{#<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>#}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 <script src="../static/main.js"></script>
 </html>

@@ -1,0 +1,596 @@
+[
+  {
+    "name": "Spreekuur Taalhuis",
+    "description": "Hulp bij het lezen, het schrijven of bij het verbeteren van je digitale vaardigheden",
+    "start_time": "10:00",
+    "end_time": "12:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Taal"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Dinsdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Ouder & Kind Caf\u00e9",
+    "description": "Vragen over opvoeding, contact met andere ouders en kinderen",
+    "start_time": "10:00",
+    "end_time": "12:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Voor kinderen"
+      },
+      {
+        "name": "Opvoeding"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Woensdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Taalcaf\u00e9",
+    "description": "Vrijwilligers praten met anderstaligen, voor gezelligheid en verbeteren van je Nederlandse taal",
+    "start_time": "09:00",
+    "end_time": "11:15",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Taal"
+      }
+    ],
+    "location": {
+      "location_name": "Forum Bibliotheek",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Woensdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Samen verder",
+    "description": "Gezellig praten met andere vrouwen",
+    "start_time": "09:00",
+    "end_time": "11:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": "Alleen voor vrouwen",
+    "categories": [
+      {
+        "name": "Taal"
+      }
+    ],
+    "location": {
+      "location_name": "Forum Bibliotheek",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Vrijdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Huiskamer voor jongeren",
+    "description": "Veilige plek voor gezelligheid en vrije tijds besteding",
+    "start_time": "14:00",
+    "end_time": "16:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": "Voor kinderen uit groep 6, 7 en 8",
+    "categories": [
+      {
+        "name": "Voor kinderen"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": "Boven vensterschool"
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Dinsdag"
+      },
+      {
+        "day_of_week": "Donderdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "ruil- en inbrengwinkel Selwerd",
+    "description": "Gebruikte kinderkleding en kinderspeelgoed",
+    "start_time": "10:00",
+    "end_time": "12:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Kleding"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": "Huiskamer 'WIJ Oak'"
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Woensdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Kunstklas",
+    "description": "Samen schilderen en tekenen met een docent ",
+    "start_time": "09:30",
+    "end_time": "12:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": "Door kunstenares Mirjam van de Briel.",
+    "categories": [
+      {
+        "name": "Kunst"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "288",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Dinsdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Leefstijlgroep Selwerd",
+    "description": "Samen wandelen om fit te blijven",
+    "start_time": "09:30",
+    "end_time": "11:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Sport"
+      }
+    ],
+    "location": {
+      "location_name": "Vensterschool",
+      "street_name": "Eikenlaan",
+      "house_number": "234",
+      "location_notes": "Verzamelen buiten de Vensterschool"
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Donderdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Wijkbedrijf Selwerd",
+    "description": "Mensen ontmoeten en je talenten ontwikkelen",
+    "start_time": "09:00",
+    "end_time": "17:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Gezelligheid"
+      },
+      {
+        "name": "Leren"
+      },
+      {
+        "name": "Werken"
+      }
+    ],
+    "location": {
+      "location_name": null,
+      "street_name": "Bottelroosstraat 3",
+      "house_number": "3",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Dinsdag"
+      },
+      {
+        "day_of_week": "Woensdag"
+      },
+      {
+        "day_of_week": "Donderdag"
+      },
+      {
+        "day_of_week": "Vrijdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Wijkrestaurant De Duindoorn",
+    "description": "",
+    "start_time": "10:00",
+    "end_time": "17:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": "Zie menukaart en website voor prijzen.",
+    "categories": [
+      {
+        "name": "Gezelligheid"
+      },
+      {
+        "name": "Eten"
+      }
+    ],
+    "location": {
+      "location_name": null,
+      "street_name": "Duindornstraat",
+      "house_number": "191",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Dinsdag"
+      },
+      {
+        "day_of_week": "Woensdag"
+      },
+      {
+        "day_of_week": "Donderdag"
+      },
+      {
+        "day_of_week": "Vrijdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "BuurtzorgT",
+    "description": "Behandeling door psychiaters, psychologen en spv-ers",
+    "start_time": "09:00",
+    "end_time": "17:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": "Op verwijzing van huisarts.",
+    "categories": [
+      {
+        "name": "Geestelijke gezondheidszorg"
+      }
+    ],
+    "location": {
+      "location_name": null,
+      "street_name": "Bottelroosstraat 3",
+      "house_number": "3",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      },
+      {
+        "day_of_week": "Dindag"
+      },
+      {
+        "day_of_week": "Woensdag"
+      },
+      {
+        "day_of_week": "Donderdag"
+      },
+      {
+        "day_of_week": "Vrijdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Mindfulness voor kinderen",
+    "description": "Samen leren ontspannen en tot jezelf komen",
+    "start_time": "15:00",
+    "end_time": "16:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Voor kinderen"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Postzegelvereniging \u201cHet Poststuk\u201d",
+    "description": "",
+    "start_time": "19:00",
+    "end_time": "22:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Cactusvereniging Succulenta",
+    "description": "",
+    "start_time": "19:30",
+    "end_time": "22:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Maandag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Zumba voor volwassenen",
+    "description": "Gezellig dansen en fit blijven!",
+    "start_time": "18:30",
+    "end_time": "19:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      },
+      {
+        "name": "Dansen"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Dinsdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Tafeltennis",
+    "description": "",
+    "start_time": "20:00",
+    "end_time": "22:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      },
+      {
+        "name": "Sport"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Dinsdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Klaverjassen",
+    "description": "",
+    "start_time": "20:00",
+    "end_time": "22:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Woensdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Sjoelen",
+    "description": "",
+    "start_time": "20:00",
+    "end_time": "22:00",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Woensdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Rolstoeldansen",
+    "description": "",
+    "start_time": "18:30",
+    "end_time": "21:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Hobby"
+      }
+    ],
+    "location": {
+      "location_name": "Buurt- en Speeltuinvereniging",
+      "street_name": "Elzenlaan",
+      "house_number": "72",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Zondag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Ladies Gym",
+    "description": "",
+    "start_time": "09:30",
+    "end_time": "12:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Sport"
+      }
+    ],
+    "location": {
+      "location_name": "De Berk",
+      "street_name": "Berkenlaan",
+      "house_number": "238",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Dinsdag"
+      }
+    ],
+    "weeks_of_month": []
+  },
+  {
+    "name": "Italiaanse les voor kinderen",
+    "description": "",
+    "start_time": "15:00",
+    "end_time": "16:30",
+    "cost_of_entry": "No costs",
+    "organizers_notes": null,
+    "categories": [
+      {
+        "name": "Voor kinderen"
+      },
+      {
+        "name": "Opvoeding"
+      }
+    ],
+    "location": {
+      "location_name": "De Berk",
+      "street_name": "Berkenlaan",
+      "house_number": "238",
+      "location_notes": null
+    },
+    "days_of_week": [
+      {
+        "day_of_week": "Vrijdag"
+      }
+    ],
+    "weeks_of_month": []
+  }
+]

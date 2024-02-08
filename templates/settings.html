@@ -1,0 +1,75 @@
+{%  extends "template.html" %}
+
+{% block content %}
+<link rel="stylesheet" href="../static/settings.css">
+    <div id="content_settings">
+        <form action="/settings" method="post">
+            <h4>Add a new event to database</h4>
+            <!-- Text Input Fields -->
+            <label for="event_name">Name:</label>
+            <input type="text" id="event_name" name="event_name" required><br>
+
+            <label for="event_description">Description:</label>
+            <input type="text" id="event_description" name="event_description" required><br>
+
+            <label for="event_notes">Organizers notes:</label>
+            <input type="text" id="event_notes" name="event_notes"><br>
+
+            <label for="location_name">Location name:</label>
+            <input type="text" id="location_name" name="location_name"><br>
+
+            <label for="street_name">Street name:</label>
+            <input type="text" id="street_name" name="street_name" required><br>
+
+            <label for="house_number">House number:</label>
+            <input type="number" id="house_number" name="house_number" required><br>
+
+            <label for="location_notes">Location notes:</label>
+            <input type="text" id="location_notes" name="location_notes"><br>
+
+            <label for="cost_of_entry">Cost of entry:</label>
+            <input type="number" id="cost_of_entry" name="cost_of_entry" min="0" required><br>
+
+            <!-- Category List -->
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                {% for category in categorylist %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select><br>
+
+            <!-- Day of the Week -->
+            <label for="dayOfWeek">Day of the Week:</label>
+            <select id="dayOfWeek" name="dayOfWeek" required>
+                <option value="Monday">Monday</option>
+                <option value="Tuesday">Tuesday</option>
+                <option value="Wednesday">Wednesday</option>
+                <option value="Thursday">Thursday</option>
+                <option value="Friday">Friday</option>
+                <option value="Saturday">Saturday</option>
+                <option value="Sunday">Sunday</option>
+            </select><br>
+
+            <!-- Week of the Month Number -->
+            <label for="weekOfMonth">Week of the Month Number:</label>
+            <input type="number" id="weekOfMonth" name="weekOfMonth" min="0" max="4" placeholder="Enter 0 for every week"><br>
+
+            <!-- Start Time -->
+            <label for="startTime">Start Time (24-hour format):</label>
+            <input type="time" id="startTime" name="startTime" required><br>
+
+            <!-- End Time -->
+            <label for="endTime">End Time (24-hour format):</label>
+            <input type="time" id="endTime" name="endTime" required><br>
+
+            <label for="submit">Add to local database</label>
+            <input type="submit" value="Submit">
+        </form>
+        <div id="update_assistant_data">
+            <h4>Update the assistants database</h4>
+            <p>Update the assistants database with the local changes made using the form to the right by pressing the below button.</p>
+            <button id="send_to_assistant">Update assistant database</button>
+        </div>
+    </div>
+<script src="../static/settings.js"></script>
+{% endblock %}
