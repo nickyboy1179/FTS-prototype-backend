@@ -81,3 +81,10 @@ button:hover {
 #update_assistant_data p {
     font-size: 1.2rem;
 }
+
+.update_message {
+    color: red;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    display: none;
+}

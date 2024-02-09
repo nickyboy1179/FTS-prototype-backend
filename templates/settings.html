@@ -62,13 +62,16 @@
             <label for="endTime">End Time (24-hour format):</label>
             <input type="time" id="endTime" name="endTime" required><br>
 
+            <div class="update_message" id="update_form">Submission successful!</div>
             <label for="submit">Add to local database</label>
-            <input type="submit" value="Submit">
+            <input id='submit_form' type="submit" value="Submit">
+
         </form>
         <div id="update_assistant_data">
             <h4>Update the assistants database</h4>
             <p>Update the assistants database with the local changes made using the form to the right by pressing the below button.</p>
             <button id="send_to_assistant">Update assistant database</button>
+            <div class="update_message" id="update_assistant">Update successful!</div>
         </div>
     </div>
 <script src="../static/settings.js"></script>
